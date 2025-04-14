@@ -4,22 +4,37 @@ const OtherStay = require('../models/OtherStay');
 
 /**
  * @swagger
- * /api/other-stays:
+ * /api/other-stays/{id}:
  *   get:
- *     summary: Get all other stays
+ *     summary: Get a single other stay by ID
  *     tags: [Other]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the other stay
  *     responses:
  *       200:
- *         description: List of other stays
+ *         description: Other stay found
+ *       404:
+ *         description: Other stay not found
  */
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const stays = await OtherStay.find();
-    res.json(stays);
+    const stay = await OtherStay.findById(req.params.id);
+    if (!stay) {
+      return res.status(404).json({ message: 'Stay not found' });
+    }
+    res.json(stay);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+module.exports = router;
+
 
 /**
  * @swagger

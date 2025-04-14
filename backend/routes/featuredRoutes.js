@@ -4,18 +4,37 @@ const FeaturedCard = require('../models/FeaturedCard');
 
 /**
  * @swagger
- * /api/featured:
+ * /api/featured/{id}:
  *   get:
- *     summary: Get all featured cards
+ *     summary: Get a single featured card by ID
  *     tags: [Featured]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the featured card
  *     responses:
  *       200:
- *         description: List of featured cards
+ *         description: Featured card found
+ *       404:
+ *         description: Featured card not found
  */
-router.get('/', async (req, res) => {
-  const cards = await FeaturedCard.find();
-  res.json(cards);
+router.get('/:id', async (req, res) => {
+  try {
+    const card = await FeaturedCard.findById(req.params.id);
+    if (!card) {
+      return res.status(404).json({ message: 'Card not found' });
+    }
+    res.json(card);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
+
+module.exports = router;
+
 
 /**
  * @swagger

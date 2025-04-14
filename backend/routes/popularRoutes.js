@@ -4,22 +4,37 @@ const PopularStay = require('../models/PopularStay');
 
 /**
  * @swagger
- * /api/popular-stays:
+ * /api/popular-stays/{id}:
  *   get:
- *     summary: Get all popular stays
+ *     summary: Get a single popular stay by ID
  *     tags: [Popular]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the popular stay
  *     responses:
  *       200:
- *         description: List of popular stays
+ *         description: Popular stay found
+ *       404:
+ *         description: Popular stay not found
  */
-router.get('/', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
-    const stays = await PopularStay.find();
-    res.json(stays);
+    const stay = await PopularStay.findById(req.params.id);
+    if (!stay) {
+      return res.status(404).json({ message: 'Stay not found' });
+    }
+    res.json(stay);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
+module.exports = router;
+
 
 /**
  * @swagger
