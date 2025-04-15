@@ -63,6 +63,7 @@ module.exports = router;
  *         description: Featured card created
  */
 router.post('/', async (req, res) => {
+    const { title, subtitle, imageUrl } = req.body;
     try {
       const card = new FeaturedCard({
         title,
