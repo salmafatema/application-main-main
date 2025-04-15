@@ -6,13 +6,6 @@ const OtherStay = require("../models/OtherStay");
 
 /**
  * @swagger
- * tags:
- *   name: Rooms
- *   description: API endpoints for room management
- */
-
-/**
- * @swagger
  * /api/rooms:
  *   post:
  *     summary: Add a new room
@@ -57,6 +50,7 @@ router.post("/", async (req, res) => {
 
     const { name, price, isPopular, images } = req.body;
 
+    // Check if the room is popular and save accordingly
     if (isPopular) {
       const popularStay = new PopularStay({
         name,
@@ -80,6 +74,7 @@ router.post("/", async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
 
 /**
  * @swagger
