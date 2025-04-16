@@ -10,6 +10,10 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const otherStaysRoutes = require("./models/OtherStayRoutes");
+const featuredRoutes = require('./routes/featuredRoutes');
+const popularRoutes = require('./routes/popularRoutes');
+const otherStaysRoutes = require('./routes/otherStaysRoutes');
 
 
 const app = express();
@@ -23,9 +27,9 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/reviews", reviewRoutes);
-app.use('/api/featured', require('./routes/featuredRoutes'));
-app.use('/api/popular-stays', require('./routes/popularRoutes'));
-app.use('/api/other-stays', require('./routes/otherStaysRoutes'));
+app.use('/api/featured', featuredRoutes)
+app.use('/api/popular-stays', popularRoutes)
+app.use('/api/other-stays', otherStaysRoutes)
 
 // Initialize Swagger
 setupSwagger(app);
